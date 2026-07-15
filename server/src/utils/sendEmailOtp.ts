@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
-import { IUser } from "../models/userModel";
 import { User } from "../generated/prisma/client";
 
 
