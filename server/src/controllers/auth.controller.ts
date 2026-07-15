@@ -1,6 +1,4 @@
 import config from '../config/config'
-import mongoose from "mongoose"
-import sessionModel from "../models/sessionModel"
 import bcrypt from "bcryptjs"
 import crypto from "crypto"
 import jwt from 'jsonwebtoken';

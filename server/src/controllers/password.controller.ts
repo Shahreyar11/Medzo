@@ -1,8 +1,8 @@
-import userModel from "../models/userModel"
 import bcrypt from "bcryptjs"
 import crypto from "crypto"
 import { Request, Response } from "express"
 import { sendResetPasswordEmail } from "../utils/sendPassReset"
+import prisma from "../lib/prisma";
 
 
 
@@ -17,12 +17,12 @@ export const handleForgotPassword = async (req : Request, res : Response) => {
             })
         }
 
-        const user = await userModel.findOne({
-            $or: [
+        const user = await prisma.user.findFirst({where : {
+            OR: [
                 ...(email ? [{ email }] : []),
                 ...(mobileNumber ? [{ mobileNumber }] : [])
             ]
-        })
+        }})
 
         if (!user) {
             return res.status(404).json({
@@ -34,9 +34,14 @@ export const handleForgotPassword = async (req : Request, res : Response) => {
         const resetPasswordToken = crypto.randomBytes(32).toString('hex')
         const resetPasswordTokenHash = crypto.createHash("sha256").update(resetPasswordToken).digest("hex")
 
-        user.resetPasswordToken = resetPasswordTokenHash
-        user.resetPasswordExpiresAt = new Date(Date.now() + 15 * 60 * 1000)
-        await user.save()
+        await prisma.user.update({
+            where: { id: user.id },
+            data :  {
+                resetPasswordToken : resetPasswordTokenHash,
+                resetPasswordExpiresAt : new Date(Date.now() + 15 * 60 * 1000)
+            }
+        })
+
 
         const resetPasswordLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetPasswordToken}`
         await sendResetPasswordEmail(user.email, user.firstName, user.lastName, resetPasswordLink)
@@ -62,12 +67,19 @@ export const handleResetPassword = async (req : Request, res : Response) => {
         const resetToken = req.query.token as string
         const { password: newPassword } = req.body
 
-        
+        if (!resetToken) {
+        return res.status(400).json({
+        success: false,
+        message: "Reset token is required"
+        })
+    }
         const resetTokenHash = crypto.createHash("sha256").update(resetToken).digest("hex")
 
-        const user = await userModel.findOne({
-            resetPasswordToken: resetTokenHash,
-            resetPasswordExpiresAt: { $gt: Date.now() }
+        const user = await prisma.user.findFirst({
+            where: {
+                resetPasswordToken: resetTokenHash,
+                resetPasswordExpiresAt: { gt: new Date() }
+            }
         })
 
         if (!user) {
@@ -78,10 +90,18 @@ export const handleResetPassword = async (req : Request, res : Response) => {
         }
 
         const salt = await bcrypt.genSalt(10)
-        user.password = await bcrypt.hash(newPassword, salt)
-        user.resetPasswordToken = undefined
-        user.resetPasswordExpiresAt = undefined
-        await user.save()
+         const Password = await bcrypt.hash(newPassword, salt)
+        
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data : {
+                password : Password,
+                resetPasswordToken : null,
+                resetPasswordExpiresAt : null
+            }       
+        })
+
 
         return res.status(200).json({
             success: true,
