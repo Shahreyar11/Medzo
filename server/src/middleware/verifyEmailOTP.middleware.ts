@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs"
-import userModel from "../models/userModel"
 import { Request, Response, NextFunction } from "express"
 import { JwtPayload } from "jsonwebtoken"
+import prisma from "../lib/prisma";
 
 export const verifyEmailOTP = async (req : Request, res : Response, next: NextFunction) => {
     try {
@@ -15,7 +15,7 @@ export const verifyEmailOTP = async (req : Request, res : Response, next: NextFu
             })
         }
 
-        const user = await userModel.findById(userId)
+        const user = await prisma.user.findUnique({where : {id :userId}})
 
         if (!user) {
             return res.status(404).json({
@@ -46,10 +46,13 @@ export const verifyEmailOTP = async (req : Request, res : Response, next: NextFu
                 message : "Invalid OTP"
             })
         }
-
-        user.emailOtp     = undefined
-        user.emailOtpExpiry = undefined
-        await user.save()
+        await prisma.user.update({
+            where : {id : userId},
+            data : {
+                emailOtp : null,
+                emailOtpExpiry : null
+            }
+        })
 
         next()
 

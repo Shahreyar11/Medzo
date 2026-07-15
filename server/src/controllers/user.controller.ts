@@ -1,10 +1,10 @@
 import config from '../config/config'
-import userModel from "../models/userModel"
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs"
 import { sendEmailVerificationOtp } from "../utils/sendEmailOtp"
 import { Request, Response } from "express"
 import { JwtPayload } from "jsonwebtoken"
+import prisma from "../lib/prisma";
 
 
 export const handleGetMe = async (req : Request, res : Response) => {
@@ -19,7 +19,9 @@ export const handleGetMe = async (req : Request, res : Response) => {
         }
 
         const decoded = jwt.verify(token, config.jwtAccessSecret as string) as JwtPayload
-        const user = await userModel.findById(decoded.id)
+        const user = await prisma.user.findUnique({
+            where: { id: decoded.id }
+        })
         if (!user){
             return res.status(400).json({
                 success : false,
@@ -60,7 +62,7 @@ export const handleChangeEmail = async (req : Request, res : Response) => {
                 message : "email or userId not found"
             })
         }
-        const newEmailCheck = await userModel.findOne({ email: newEmail })
+        const newEmailCheck = await prisma.user.findFirst({ where: { email: newEmail } })
         if (newEmailCheck){
             return res.status(400).json({
                 success : false,
@@ -68,15 +70,21 @@ export const handleChangeEmail = async (req : Request, res : Response) => {
             })
         }
 
-        const user = await userModel.findById(userId)
+        const user = await prisma.user.findUnique({where : {id : userId}})
         if (!user){
             return res.status(404).json({
                 success : false,
                 message : "User not found"
             })
         }
-        user.pendingEmail = newEmail;
-        await user.save()
+
+        await prisma.user.update({
+             where: { id: user.id },
+            data :  {
+                pendingEmail : newEmail
+            }
+        })
+
         await sendEmailVerificationOtp(user)
 
         return res.status(200).json({
@@ -115,7 +123,7 @@ export const handleChangeName = async (req : Request, res : Response) => {
             })
         }
 
-        const user = await userModel.findById(userId)
+        const user = await prisma.user.findUnique({where : {id : userId}})
 
         if (!user) {
             return res.status(404).json({
@@ -124,9 +132,13 @@ export const handleChangeName = async (req : Request, res : Response) => {
             })
         }
 
-        user.firstName = newFirstName
-        user.lastName  = newLastName
-        await user.save()
+        await prisma.user.update(
+            {where : {id : userId},
+            data : {
+                firstName : newFirstName,
+                lastName : newLastName
+            }
+        })
 
         return res.status(200).json({
             success : true,
@@ -149,7 +161,7 @@ export const handleSendEmailOtp = async (req : Request, res : Response) => {
         }
         const userId = req.user.userId
 
-        const user = await userModel.findById(userId)
+        const user = await prisma.user.findUnique({where : {id : userId}})
 
         if (!user) {
             return res.status(404).json({
@@ -190,7 +202,7 @@ export const handleChangePassword = async (req: Request, res: Response) => {
             })
         }
 
-        const user = await userModel.findById(userId)
+        const user = await prisma.user.findUnique({where : {id :userId}})
 
         if (!user) {
             return res.status(404).json({
@@ -209,8 +221,13 @@ export const handleChangePassword = async (req: Request, res: Response) => {
         }
 
         const salt = await bcrypt.genSalt(10)
-        user.password = await bcrypt.hash(newPassword, salt)
-        await user.save()
+        const hashedNewPassword = await bcrypt.hash(newPassword, salt)
+        await prisma.user.update({
+            where : {id : userId},
+            data :  {
+                password : hashedNewPassword
+            }
+        })
 
         return res.status(200).json({
             success: true,
@@ -243,7 +260,7 @@ export const handleChangeMobileNumber = async (req : Request, res : Response) =>
             })
         }
 
-        const user = await userModel.findById(userId)
+        const user = await prisma.user.findUnique({where : {id :userId}})
 
         if (!user) {
             return res.status(404).json({
@@ -252,8 +269,14 @@ export const handleChangeMobileNumber = async (req : Request, res : Response) =>
             })
         }
 
-        user.mobileNumber = newMobileNumber
-        await user.save()
+        await prisma.user.update({
+            where : {id : userId},
+            data :  {
+                mobileNumber : newMobileNumber
+            }
+        })
+        
+        
 
         return res.status(200).json({
             success : true,
@@ -276,7 +299,9 @@ export const handleDeleteAccount = async (req : Request, res : Response) => {
         }   
         const userId = req.user.userId
 
-        const user = await userModel.findByIdAndDelete(userId)
+        const user = await prisma.user.delete({
+            where: { id: userId }
+        })
 
         if (!user) {
             return res.status(404).json({
@@ -308,7 +333,7 @@ export const handleVerifyPendingEmail = async (req: Request, res: Response) => {
         const userId = req.user.userId
         const { otp } = req.body   // no email needed from body at all
 
-        const user = await userModel.findById(userId)
+        const user = await prisma.user.findUnique({where : { id : userId}})
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" })
         }
@@ -327,11 +352,16 @@ export const handleVerifyPendingEmail = async (req: Request, res: Response) => {
             return res.status(400).json({ success: false, message: "Invalid OTP" })
         }
 
-        user.email = user.pendingEmail     
-        user.pendingEmail = undefined
-        user.emailOtp = undefined
-        user.emailOtpExpiry = undefined
-        await user.save()
+        await prisma.user.update({
+            where : {id : userId},
+            data : {
+                email : user.pendingEmail,
+                pendingEmail : null,
+                emailOtp : null,
+                emailOtpExpiry : null
+                
+            }
+        })
 
         return res.status(200).json({ success: true, message: "Email changed successfully" })
 
