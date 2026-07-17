@@ -2,7 +2,7 @@ import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import { User } from "../generated/prisma/client";
-
+import prisma from "../lib/prisma"; // <-- Make sure to import your Prisma client!
 
 // generate 6 digit otp
 const generateOtp = () => {
@@ -59,13 +59,20 @@ export const sendEmailVerificationOtp = async (user: User) => {
     });
 
     const otp = generateOtp();
-    console.log(otp)
+    console.log("Generated OTP:", otp);
+    
     const hashedOtp = await bcrypt.hash(otp, 10);
-    const emailToSend = user.pendingEmail || user.email
-    console.log(emailToSend)
-    user.emailOtp = hashedOtp;
-    user.emailOtpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-    // await user.save();
+    const emailToSend = user.pendingEmail || user.email;
+    console.log("Sending to:", emailToSend);
+
+    // THE FIX: Properly save the OTP and expiry to the database using Prisma
+    await prisma.user.update({
+        where: { id: user.id },
+        data: {
+            emailOtp: hashedOtp,
+            emailOtpExpiry: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes from now
+        }
+    });
 
     const appName = process.env.APP_NAME || "Your App";
 
