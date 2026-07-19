@@ -115,6 +115,7 @@ export const handleVerifyEmail = async (req : Request, res : Response ) => {
         if (!user.emailOtp) {
             return res.status(400).json({ success: false, message: "OTP not found" })
         }
+        
         const otpMatch = await bcrypt.compare(String(otp), user.emailOtp)
         console.log("OTP match result:", otpMatch)
         if (!otpMatch){
