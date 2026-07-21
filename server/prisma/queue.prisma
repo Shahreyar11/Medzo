@@ -1,0 +1,9 @@
+model QueueEntry {
+  id             String       @id @default(uuid())
+  appointment    Appointment  @relation(fields: [appointmentId], references: [id])
+  appointmentId  String       @unique
+  tokenNumber    Int
+  checkedInAt    DateTime     @default(now())
+  checkedOutAt   DateTime
+  calledAt       DateTime?
+}
