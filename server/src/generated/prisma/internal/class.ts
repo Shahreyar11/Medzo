@@ -12,7 +12,7 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "./prismaNamespace"
+import type * as Prisma from "./prismaNamespace.ts"
 
 
 const config: runtime.GetPrismaClientConfig = {
@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.8.0",
   "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Session {\n  id               Int     @id @default(autoincrement())\n  userId           Int\n  user             User    @relation(fields: [userId], references: [id])\n  refreshTokenHash String\n  ip               String\n  userAgent        String\n  revoked          Boolean @default(false)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"sessions\")\n}\n\nmodel User {\n  id                     Int       @id @default(autoincrement())\n  firstName              String\n  lastName               String\n  email                  String    @unique\n  pendingEmail           String?\n  isVerifiedPendingEmail Boolean   @default(false)\n  isVerifiedEmail        Boolean   @default(false)\n  mobileNumber           String?   @unique\n  isVerifiedMobileNumber Boolean   @default(false)\n  password               String\n  role                   Role      @default(user)\n  emailOtp               String?\n  emailOtpExpiry         DateTime?\n  mobileNumberOtp        String?\n  mobileNumberOtpExpiry  DateTime?\n  resetPasswordToken     String?\n  resetPasswordExpiresAt DateTime?\n\n  sessions Session[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"users\")\n}\n\nenum Role {\n  user\n  moderator\n  admin\n  leadAdmin\n  manager\n}\n",
+  "inlineSchema": "generator client {\n  provider            = \"prisma-client\"\n  output              = \"../src/generated/prisma\"\n  moduleFormat        = \"cjs\"\n  importFileExtension = \"ts\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Session {\n  id               Int     @id @default(autoincrement())\n  userId           Int\n  user             User    @relation(fields: [userId], references: [id])\n  refreshTokenHash String\n  ip               String\n  userAgent        String\n  revoked          Boolean @default(false)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"sessions\")\n}\n\nmodel User {\n  id                     Int       @id @default(autoincrement())\n  firstName              String\n  lastName               String\n  email                  String    @unique\n  pendingEmail           String?\n  isVerifiedPendingEmail Boolean   @default(false)\n  isVerifiedEmail        Boolean   @default(false)\n  mobileNumber           String?   @unique\n  isVerifiedMobileNumber Boolean   @default(false)\n  password               String\n  role                   Role      @default(user)\n  emailOtp               String?\n  emailOtpExpiry         DateTime?\n  mobileNumberOtp        String?\n  mobileNumberOtpExpiry  DateTime?\n  resetPasswordToken     String?\n  resetPasswordExpiresAt DateTime?\n\n  sessions Session[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"users\")\n}\n\nenum Role {\n  user\n  moderator\n  admin\n  leadAdmin\n  manager\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},

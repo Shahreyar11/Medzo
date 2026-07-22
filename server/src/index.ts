@@ -12,11 +12,11 @@ dns.setServers(["1.1.1.1", "8.8.8.8"])
 const PORT = 8000
 
 const app:Express = express()
-app.use(express.json())
+app.use(express.json({limit: "20kb"}))
 app.use(cookieParser())
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:3000",
     credentials: true  
 }))
 
