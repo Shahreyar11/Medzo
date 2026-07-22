@@ -17,4 +17,6 @@ export const Role = {
   manager: 'manager'
 } as const
 
+
+
 export type Role = (typeof Role)[keyof typeof Role]

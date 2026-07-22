@@ -18,17 +18,21 @@ model User {
   resetPasswordExpiresAt   DateTime?
 
   sessions                 Session[]
+  clinic        Clinic?  @relation("ClinicDoctors", fields: [clinicId], references: [id])
+  clinicId      String?
 
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
+  appointments  Appointment[] @relation("PatientAppointments")
+  doctorSlots   Appointment[] @relation("DoctorAppointments")
 
   @@map("users")
 }
 
 enum Role {
-  user
-  moderator
-  admin
-  leadAdmin
-  manager
+  OWNER
+  MANAGER
+  DOCTOR
+  RECEPTIONIST
+  PATIENT
 }

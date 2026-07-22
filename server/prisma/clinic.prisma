@@ -1,0 +1,11 @@
+model Clinic {
+  id                                String   @id @default(uuid())
+  name                              String
+  address                           String
+  phone                             String
+  registrationNumber                String
+  createdAt                         DateTime @default(now())
+  updatedAt                         DateTime @updatedAt
+  doctors                           User[]        @relation("ClinicDoctors")
+  appointments                      Appointment[]
+}
