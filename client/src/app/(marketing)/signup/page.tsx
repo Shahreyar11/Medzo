@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { register } from "@/services/auth.service";
 import toast from "react-hot-toast";
+import { signupSchema } from "@/schemas/auth.schema";
 import { Mail, Lock, User, Eye, EyeOff, Loader2, Phone } from "lucide-react";
 
 export default function SignUp() {
@@ -34,6 +35,14 @@ export default function SignUp() {
         ...user,
         mobileNumber: user.mobileNumber.trim() === "" ? undefined : user.mobileNumber.trim(),
       };
+
+      //.trim() removes extra spaces 
+
+      const result = signupSchema.safeParse(payload);
+      if (!result.success) {
+        toast.error(result.error.issues[0].message);
+        return;
+      }      
 
       const res = await register(payload);
       toast.success("Account created! Check your email for the verification code.");
