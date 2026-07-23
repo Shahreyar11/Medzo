@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/services/auth.service";
 import toast from "react-hot-toast";
+import { loginSchema } from "@/schemas/auth.schema";
 import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function Login() {
@@ -23,10 +24,19 @@ export default function Login() {
     try {
       setSubmitting(true);
       
-      const res = await login({
+      const payload = {
         email: credentials.email.trim(),
-        password: credentials.password
-      });
+        password: credentials.password,
+      };
+
+      const result = loginSchema.safeParse(payload);
+
+      if (!result.success) {
+        toast.error(result.error.issues[0].message);
+        return;
+      }
+
+      const res = await login(payload);
       
       toast.success("Welcome back!");
       router.push("/dashboard"); // Redirect to your protected route
