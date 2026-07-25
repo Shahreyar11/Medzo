@@ -9,7 +9,7 @@ model User {
   mobileNumber             String?  @unique
   isVerifiedMobileNumber   Boolean  @default(false)
   password                 String
-  role                     Role     @default(user)
+  role                     Role     @default(PATIENT)
   emailOtp                 String?
   emailOtpExpiry           DateTime?
   mobileNumberOtp          String?
@@ -29,10 +29,3 @@ model User {
   @@map("users")
 }
 
-enum Role {
-  OWNER
-  MANAGER
-  DOCTOR
-  RECEPTIONIST
-  PATIENT
-}
