@@ -10,13 +10,22 @@
 */
 
 export const Role = {
-  user: 'user',
-  moderator: 'moderator',
-  admin: 'admin',
-  leadAdmin: 'leadAdmin',
-  manager: 'manager'
+  OWNER: 'OWNER',
+  MANAGER: 'MANAGER',
+  DOCTOR: 'DOCTOR',
+  RECEPTIONIST: 'RECEPTIONIST',
+  PATIENT: 'PATIENT'
 } as const
 
-
-
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const AppointmentStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED',
+  NOSHOW: 'NOSHOW'
+} as const
+
+export type AppointmentStatus = (typeof AppointmentStatus)[keyof typeof AppointmentStatus]
