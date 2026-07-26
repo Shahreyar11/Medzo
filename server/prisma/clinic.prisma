@@ -1,19 +1,20 @@
 model Clinic {
-  id            String   @id @default(uuid())
-  name          String
-  address       String
-  phone         String
-  email         String   @unique
-  passwordHash  String
+  id                        String   @id @default(uuid())
+  registrationNumber        String
+  clinicName                String
+  address                   String
+  phone                     String
+  email                     String   @unique
+  passwordHash              String
 
-  isVerified    Boolean  @default(false)
-  isActive      Boolean  @default(true)
+  isVerified                Boolean  @default(false)
+  isActive                  Boolean  @default(true)
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
 
-  doctors       User[]        @relation("ClinicDoctors")
-  appointments  Appointment[]
+  doctors                   User[]   @relation("ClinicDoctors")
+  appointments              Appointment[]
 
-  refreshTokens ClinicRefreshToken[]
+  sessions                  ClinicSession[]
 }

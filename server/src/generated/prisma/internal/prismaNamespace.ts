@@ -385,8 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Appointment: 'Appointment',
-  ClinicRefreshToken: 'ClinicRefreshToken',
   Clinic: 'Clinic',
+  ClinicSession: 'ClinicSession',
   QueueEntry: 'QueueEntry',
   Session: 'Session',
   User: 'User'
@@ -405,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "appointment" | "clinicRefreshToken" | "clinic" | "queueEntry" | "session" | "user"
+    modelProps: "appointment" | "clinic" | "clinicSession" | "queueEntry" | "session" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -483,80 +483,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    ClinicRefreshToken: {
-      payload: Prisma.$ClinicRefreshTokenPayload<ExtArgs>
-      fields: Prisma.ClinicRefreshTokenFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ClinicRefreshTokenFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ClinicRefreshTokenFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>
-        }
-        findFirst: {
-          args: Prisma.ClinicRefreshTokenFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ClinicRefreshTokenFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>
-        }
-        findMany: {
-          args: Prisma.ClinicRefreshTokenFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>[]
-        }
-        create: {
-          args: Prisma.ClinicRefreshTokenCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>
-        }
-        createMany: {
-          args: Prisma.ClinicRefreshTokenCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ClinicRefreshTokenCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>[]
-        }
-        delete: {
-          args: Prisma.ClinicRefreshTokenDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>
-        }
-        update: {
-          args: Prisma.ClinicRefreshTokenUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>
-        }
-        deleteMany: {
-          args: Prisma.ClinicRefreshTokenDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ClinicRefreshTokenUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ClinicRefreshTokenUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>[]
-        }
-        upsert: {
-          args: Prisma.ClinicRefreshTokenUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicRefreshTokenPayload>
-        }
-        aggregate: {
-          args: Prisma.ClinicRefreshTokenAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateClinicRefreshToken>
-        }
-        groupBy: {
-          args: Prisma.ClinicRefreshTokenGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ClinicRefreshTokenGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ClinicRefreshTokenCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ClinicRefreshTokenCountAggregateOutputType> | number
-        }
-      }
-    }
     Clinic: {
       payload: Prisma.$ClinicPayload<ExtArgs>
       fields: Prisma.ClinicFieldRefs
@@ -628,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ClinicCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ClinicCountAggregateOutputType> | number
+        }
+      }
+    }
+    ClinicSession: {
+      payload: Prisma.$ClinicSessionPayload<ExtArgs>
+      fields: Prisma.ClinicSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClinicSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClinicSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.ClinicSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClinicSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>
+        }
+        findMany: {
+          args: Prisma.ClinicSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>[]
+        }
+        create: {
+          args: Prisma.ClinicSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>
+        }
+        createMany: {
+          args: Prisma.ClinicSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClinicSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.ClinicSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>
+        }
+        update: {
+          args: Prisma.ClinicSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClinicSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClinicSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClinicSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClinicSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.ClinicSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClinicSession>
+        }
+        groupBy: {
+          args: Prisma.ClinicSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClinicSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClinicSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClinicSessionCountAggregateOutputType> | number
         }
       }
     }
@@ -906,24 +906,10 @@ export const AppointmentScalarFieldEnum = {
 export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
 
 
-export const ClinicRefreshTokenScalarFieldEnum = {
-  id: 'id',
-  clinicId: 'clinicId',
-  tokenHash: 'tokenHash',
-  isRevoked: 'isRevoked',
-  replacedBy: 'replacedBy',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
-} as const
-
-export type ClinicRefreshTokenScalarFieldEnum = (typeof ClinicRefreshTokenScalarFieldEnum)[keyof typeof ClinicRefreshTokenScalarFieldEnum]
-
-
 export const ClinicScalarFieldEnum = {
   id: 'id',
   registrationNumber: 'registrationNumber',
   clinicName: 'clinicName',
-  clinicOwnerName: 'clinicOwnerName',
   address: 'address',
   phone: 'phone',
   email: 'email',
@@ -935,6 +921,22 @@ export const ClinicScalarFieldEnum = {
 } as const
 
 export type ClinicScalarFieldEnum = (typeof ClinicScalarFieldEnum)[keyof typeof ClinicScalarFieldEnum]
+
+
+export const ClinicSessionScalarFieldEnum = {
+  id: 'id',
+  clinicId: 'clinicId',
+  refreshTokenHash: 'refreshTokenHash',
+  isRevoked: 'isRevoked',
+  replacedBy: 'replacedBy',
+  userAgent: 'userAgent',
+  ipAddress: 'ipAddress',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClinicSessionScalarFieldEnum = (typeof ClinicSessionScalarFieldEnum)[keyof typeof ClinicSessionScalarFieldEnum]
 
 
 export const QueueEntryScalarFieldEnum = {
@@ -1220,8 +1222,8 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   appointment?: Prisma.AppointmentOmit
-  clinicRefreshToken?: Prisma.ClinicRefreshTokenOmit
   clinic?: Prisma.ClinicOmit
+  clinicSession?: Prisma.ClinicSessionOmit
   queueEntry?: Prisma.QueueEntryOmit
   session?: Prisma.SessionOmit
   user?: Prisma.UserOmit

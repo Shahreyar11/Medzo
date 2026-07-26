@@ -52,8 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Appointment: 'Appointment',
-  ClinicRefreshToken: 'ClinicRefreshToken',
   Clinic: 'Clinic',
+  ClinicSession: 'ClinicSession',
   QueueEntry: 'QueueEntry',
   Session: 'Session',
   User: 'User'
@@ -89,24 +89,10 @@ export const AppointmentScalarFieldEnum = {
 export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
 
 
-export const ClinicRefreshTokenScalarFieldEnum = {
-  id: 'id',
-  clinicId: 'clinicId',
-  tokenHash: 'tokenHash',
-  isRevoked: 'isRevoked',
-  replacedBy: 'replacedBy',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
-} as const
-
-export type ClinicRefreshTokenScalarFieldEnum = (typeof ClinicRefreshTokenScalarFieldEnum)[keyof typeof ClinicRefreshTokenScalarFieldEnum]
-
-
 export const ClinicScalarFieldEnum = {
   id: 'id',
   registrationNumber: 'registrationNumber',
   clinicName: 'clinicName',
-  clinicOwnerName: 'clinicOwnerName',
   address: 'address',
   phone: 'phone',
   email: 'email',
@@ -118,6 +104,22 @@ export const ClinicScalarFieldEnum = {
 } as const
 
 export type ClinicScalarFieldEnum = (typeof ClinicScalarFieldEnum)[keyof typeof ClinicScalarFieldEnum]
+
+
+export const ClinicSessionScalarFieldEnum = {
+  id: 'id',
+  clinicId: 'clinicId',
+  refreshTokenHash: 'refreshTokenHash',
+  isRevoked: 'isRevoked',
+  replacedBy: 'replacedBy',
+  userAgent: 'userAgent',
+  ipAddress: 'ipAddress',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClinicSessionScalarFieldEnum = (typeof ClinicSessionScalarFieldEnum)[keyof typeof ClinicSessionScalarFieldEnum]
 
 
 export const QueueEntryScalarFieldEnum = {

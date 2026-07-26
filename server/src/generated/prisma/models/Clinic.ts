@@ -28,7 +28,6 @@ export type ClinicMinAggregateOutputType = {
   id: string | null
   registrationNumber: string | null
   clinicName: string | null
-  clinicOwnerName: string | null
   address: string | null
   phone: string | null
   email: string | null
@@ -43,7 +42,6 @@ export type ClinicMaxAggregateOutputType = {
   id: string | null
   registrationNumber: string | null
   clinicName: string | null
-  clinicOwnerName: string | null
   address: string | null
   phone: string | null
   email: string | null
@@ -58,7 +56,6 @@ export type ClinicCountAggregateOutputType = {
   id: number
   registrationNumber: number
   clinicName: number
-  clinicOwnerName: number
   address: number
   phone: number
   email: number
@@ -75,7 +72,6 @@ export type ClinicMinAggregateInputType = {
   id?: true
   registrationNumber?: true
   clinicName?: true
-  clinicOwnerName?: true
   address?: true
   phone?: true
   email?: true
@@ -90,7 +86,6 @@ export type ClinicMaxAggregateInputType = {
   id?: true
   registrationNumber?: true
   clinicName?: true
-  clinicOwnerName?: true
   address?: true
   phone?: true
   email?: true
@@ -105,7 +100,6 @@ export type ClinicCountAggregateInputType = {
   id?: true
   registrationNumber?: true
   clinicName?: true
-  clinicOwnerName?: true
   address?: true
   phone?: true
   email?: true
@@ -193,7 +187,6 @@ export type ClinicGroupByOutputType = {
   id: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -229,7 +222,6 @@ export type ClinicWhereInput = {
   id?: Prisma.StringFilter<"Clinic"> | string
   registrationNumber?: Prisma.StringFilter<"Clinic"> | string
   clinicName?: Prisma.StringFilter<"Clinic"> | string
-  clinicOwnerName?: Prisma.StringFilter<"Clinic"> | string
   address?: Prisma.StringFilter<"Clinic"> | string
   phone?: Prisma.StringFilter<"Clinic"> | string
   email?: Prisma.StringFilter<"Clinic"> | string
@@ -240,14 +232,13 @@ export type ClinicWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Clinic"> | Date | string
   doctors?: Prisma.UserListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
-  refreshTokens?: Prisma.ClinicRefreshTokenListRelationFilter
+  sessions?: Prisma.ClinicSessionListRelationFilter
 }
 
 export type ClinicOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
-  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -258,20 +249,19 @@ export type ClinicOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   doctors?: Prisma.UserOrderByRelationAggregateInput
   appointments?: Prisma.AppointmentOrderByRelationAggregateInput
-  refreshTokens?: Prisma.ClinicRefreshTokenOrderByRelationAggregateInput
+  sessions?: Prisma.ClinicSessionOrderByRelationAggregateInput
 }
 
 export type ClinicWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  registrationNumber?: string
-  phone?: string
   email?: string
   AND?: Prisma.ClinicWhereInput | Prisma.ClinicWhereInput[]
   OR?: Prisma.ClinicWhereInput[]
   NOT?: Prisma.ClinicWhereInput | Prisma.ClinicWhereInput[]
+  registrationNumber?: Prisma.StringFilter<"Clinic"> | string
   clinicName?: Prisma.StringFilter<"Clinic"> | string
-  clinicOwnerName?: Prisma.StringFilter<"Clinic"> | string
   address?: Prisma.StringFilter<"Clinic"> | string
+  phone?: Prisma.StringFilter<"Clinic"> | string
   passwordHash?: Prisma.StringFilter<"Clinic"> | string
   isVerified?: Prisma.BoolFilter<"Clinic"> | boolean
   isActive?: Prisma.BoolFilter<"Clinic"> | boolean
@@ -279,14 +269,13 @@ export type ClinicWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Clinic"> | Date | string
   doctors?: Prisma.UserListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
-  refreshTokens?: Prisma.ClinicRefreshTokenListRelationFilter
-}, "id" | "registrationNumber" | "phone" | "email">
+  sessions?: Prisma.ClinicSessionListRelationFilter
+}, "id" | "email">
 
 export type ClinicOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
-  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -307,7 +296,6 @@ export type ClinicScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   registrationNumber?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   clinicName?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
-  clinicOwnerName?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   address?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   phone?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   email?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
@@ -322,7 +310,6 @@ export type ClinicCreateInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -333,14 +320,13 @@ export type ClinicCreateInput = {
   updatedAt?: Date | string
   doctors?: Prisma.UserCreateNestedManyWithoutClinicInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutClinicInput
-  refreshTokens?: Prisma.ClinicRefreshTokenCreateNestedManyWithoutClinicInput
+  sessions?: Prisma.ClinicSessionCreateNestedManyWithoutClinicInput
 }
 
 export type ClinicUncheckedCreateInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -351,14 +337,13 @@ export type ClinicUncheckedCreateInput = {
   updatedAt?: Date | string
   doctors?: Prisma.UserUncheckedCreateNestedManyWithoutClinicInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutClinicInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUncheckedCreateNestedManyWithoutClinicInput
+  sessions?: Prisma.ClinicSessionUncheckedCreateNestedManyWithoutClinicInput
 }
 
 export type ClinicUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -369,14 +354,13 @@ export type ClinicUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctors?: Prisma.UserUpdateManyWithoutClinicNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutClinicNestedInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUpdateManyWithoutClinicNestedInput
+  sessions?: Prisma.ClinicSessionUpdateManyWithoutClinicNestedInput
 }
 
 export type ClinicUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -387,14 +371,13 @@ export type ClinicUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctors?: Prisma.UserUncheckedUpdateManyWithoutClinicNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutClinicNestedInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUncheckedUpdateManyWithoutClinicNestedInput
+  sessions?: Prisma.ClinicSessionUncheckedUpdateManyWithoutClinicNestedInput
 }
 
 export type ClinicCreateManyInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -409,7 +392,6 @@ export type ClinicUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -424,7 +406,6 @@ export type ClinicUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -444,7 +425,6 @@ export type ClinicCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
-  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -459,7 +439,6 @@ export type ClinicMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
-  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -474,7 +453,6 @@ export type ClinicMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
-  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -504,18 +482,22 @@ export type ClinicUpdateOneRequiredWithoutAppointmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutAppointmentsInput, Prisma.ClinicUpdateWithoutAppointmentsInput>, Prisma.ClinicUncheckedUpdateWithoutAppointmentsInput>
 }
 
-export type ClinicCreateNestedOneWithoutRefreshTokensInput = {
-  create?: Prisma.XOR<Prisma.ClinicCreateWithoutRefreshTokensInput, Prisma.ClinicUncheckedCreateWithoutRefreshTokensInput>
-  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutRefreshTokensInput
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type ClinicCreateNestedOneWithoutSessionsInput = {
+  create?: Prisma.XOR<Prisma.ClinicCreateWithoutSessionsInput, Prisma.ClinicUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutSessionsInput
   connect?: Prisma.ClinicWhereUniqueInput
 }
 
-export type ClinicUpdateOneRequiredWithoutRefreshTokensNestedInput = {
-  create?: Prisma.XOR<Prisma.ClinicCreateWithoutRefreshTokensInput, Prisma.ClinicUncheckedCreateWithoutRefreshTokensInput>
-  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutRefreshTokensInput
-  upsert?: Prisma.ClinicUpsertWithoutRefreshTokensInput
+export type ClinicUpdateOneRequiredWithoutSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClinicCreateWithoutSessionsInput, Prisma.ClinicUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutSessionsInput
+  upsert?: Prisma.ClinicUpsertWithoutSessionsInput
   connect?: Prisma.ClinicWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutRefreshTokensInput, Prisma.ClinicUpdateWithoutRefreshTokensInput>, Prisma.ClinicUncheckedUpdateWithoutRefreshTokensInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutSessionsInput, Prisma.ClinicUpdateWithoutSessionsInput>, Prisma.ClinicUncheckedUpdateWithoutSessionsInput>
 }
 
 export type ClinicCreateNestedOneWithoutDoctorsInput = {
@@ -538,7 +520,6 @@ export type ClinicCreateWithoutAppointmentsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -548,14 +529,13 @@ export type ClinicCreateWithoutAppointmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   doctors?: Prisma.UserCreateNestedManyWithoutClinicInput
-  refreshTokens?: Prisma.ClinicRefreshTokenCreateNestedManyWithoutClinicInput
+  sessions?: Prisma.ClinicSessionCreateNestedManyWithoutClinicInput
 }
 
 export type ClinicUncheckedCreateWithoutAppointmentsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -565,7 +545,7 @@ export type ClinicUncheckedCreateWithoutAppointmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   doctors?: Prisma.UserUncheckedCreateNestedManyWithoutClinicInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUncheckedCreateNestedManyWithoutClinicInput
+  sessions?: Prisma.ClinicSessionUncheckedCreateNestedManyWithoutClinicInput
 }
 
 export type ClinicCreateOrConnectWithoutAppointmentsInput = {
@@ -588,7 +568,6 @@ export type ClinicUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -598,14 +577,13 @@ export type ClinicUpdateWithoutAppointmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctors?: Prisma.UserUpdateManyWithoutClinicNestedInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUpdateManyWithoutClinicNestedInput
+  sessions?: Prisma.ClinicSessionUpdateManyWithoutClinicNestedInput
 }
 
 export type ClinicUncheckedUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -615,14 +593,13 @@ export type ClinicUncheckedUpdateWithoutAppointmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctors?: Prisma.UserUncheckedUpdateManyWithoutClinicNestedInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUncheckedUpdateManyWithoutClinicNestedInput
+  sessions?: Prisma.ClinicSessionUncheckedUpdateManyWithoutClinicNestedInput
 }
 
-export type ClinicCreateWithoutRefreshTokensInput = {
+export type ClinicCreateWithoutSessionsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -635,11 +612,10 @@ export type ClinicCreateWithoutRefreshTokensInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutClinicInput
 }
 
-export type ClinicUncheckedCreateWithoutRefreshTokensInput = {
+export type ClinicUncheckedCreateWithoutSessionsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -652,27 +628,26 @@ export type ClinicUncheckedCreateWithoutRefreshTokensInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutClinicInput
 }
 
-export type ClinicCreateOrConnectWithoutRefreshTokensInput = {
+export type ClinicCreateOrConnectWithoutSessionsInput = {
   where: Prisma.ClinicWhereUniqueInput
-  create: Prisma.XOR<Prisma.ClinicCreateWithoutRefreshTokensInput, Prisma.ClinicUncheckedCreateWithoutRefreshTokensInput>
+  create: Prisma.XOR<Prisma.ClinicCreateWithoutSessionsInput, Prisma.ClinicUncheckedCreateWithoutSessionsInput>
 }
 
-export type ClinicUpsertWithoutRefreshTokensInput = {
-  update: Prisma.XOR<Prisma.ClinicUpdateWithoutRefreshTokensInput, Prisma.ClinicUncheckedUpdateWithoutRefreshTokensInput>
-  create: Prisma.XOR<Prisma.ClinicCreateWithoutRefreshTokensInput, Prisma.ClinicUncheckedCreateWithoutRefreshTokensInput>
+export type ClinicUpsertWithoutSessionsInput = {
+  update: Prisma.XOR<Prisma.ClinicUpdateWithoutSessionsInput, Prisma.ClinicUncheckedUpdateWithoutSessionsInput>
+  create: Prisma.XOR<Prisma.ClinicCreateWithoutSessionsInput, Prisma.ClinicUncheckedCreateWithoutSessionsInput>
   where?: Prisma.ClinicWhereInput
 }
 
-export type ClinicUpdateToOneWithWhereWithoutRefreshTokensInput = {
+export type ClinicUpdateToOneWithWhereWithoutSessionsInput = {
   where?: Prisma.ClinicWhereInput
-  data: Prisma.XOR<Prisma.ClinicUpdateWithoutRefreshTokensInput, Prisma.ClinicUncheckedUpdateWithoutRefreshTokensInput>
+  data: Prisma.XOR<Prisma.ClinicUpdateWithoutSessionsInput, Prisma.ClinicUncheckedUpdateWithoutSessionsInput>
 }
 
-export type ClinicUpdateWithoutRefreshTokensInput = {
+export type ClinicUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -685,11 +660,10 @@ export type ClinicUpdateWithoutRefreshTokensInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutClinicNestedInput
 }
 
-export type ClinicUncheckedUpdateWithoutRefreshTokensInput = {
+export type ClinicUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -706,7 +680,6 @@ export type ClinicCreateWithoutDoctorsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -716,14 +689,13 @@ export type ClinicCreateWithoutDoctorsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentCreateNestedManyWithoutClinicInput
-  refreshTokens?: Prisma.ClinicRefreshTokenCreateNestedManyWithoutClinicInput
+  sessions?: Prisma.ClinicSessionCreateNestedManyWithoutClinicInput
 }
 
 export type ClinicUncheckedCreateWithoutDoctorsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
-  clinicOwnerName: string
   address: string
   phone: string
   email: string
@@ -733,7 +705,7 @@ export type ClinicUncheckedCreateWithoutDoctorsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutClinicInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUncheckedCreateNestedManyWithoutClinicInput
+  sessions?: Prisma.ClinicSessionUncheckedCreateNestedManyWithoutClinicInput
 }
 
 export type ClinicCreateOrConnectWithoutDoctorsInput = {
@@ -756,7 +728,6 @@ export type ClinicUpdateWithoutDoctorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -766,14 +737,13 @@ export type ClinicUpdateWithoutDoctorsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUpdateManyWithoutClinicNestedInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUpdateManyWithoutClinicNestedInput
+  sessions?: Prisma.ClinicSessionUpdateManyWithoutClinicNestedInput
 }
 
 export type ClinicUncheckedUpdateWithoutDoctorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
-  clinicOwnerName?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -783,7 +753,7 @@ export type ClinicUncheckedUpdateWithoutDoctorsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutClinicNestedInput
-  refreshTokens?: Prisma.ClinicRefreshTokenUncheckedUpdateManyWithoutClinicNestedInput
+  sessions?: Prisma.ClinicSessionUncheckedUpdateManyWithoutClinicNestedInput
 }
 
 
@@ -794,13 +764,13 @@ export type ClinicUncheckedUpdateWithoutDoctorsInput = {
 export type ClinicCountOutputType = {
   doctors: number
   appointments: number
-  refreshTokens: number
+  sessions: number
 }
 
 export type ClinicCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctors?: boolean | ClinicCountOutputTypeCountDoctorsArgs
   appointments?: boolean | ClinicCountOutputTypeCountAppointmentsArgs
-  refreshTokens?: boolean | ClinicCountOutputTypeCountRefreshTokensArgs
+  sessions?: boolean | ClinicCountOutputTypeCountSessionsArgs
 }
 
 /**
@@ -830,8 +800,8 @@ export type ClinicCountOutputTypeCountAppointmentsArgs<ExtArgs extends runtime.T
 /**
  * ClinicCountOutputType without action
  */
-export type ClinicCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ClinicRefreshTokenWhereInput
+export type ClinicCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClinicSessionWhereInput
 }
 
 
@@ -839,7 +809,6 @@ export type ClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
-  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -850,7 +819,7 @@ export type ClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updatedAt?: boolean
   doctors?: boolean | Prisma.Clinic$doctorsArgs<ExtArgs>
   appointments?: boolean | Prisma.Clinic$appointmentsArgs<ExtArgs>
-  refreshTokens?: boolean | Prisma.Clinic$refreshTokensArgs<ExtArgs>
+  sessions?: boolean | Prisma.Clinic$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.ClinicCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["clinic"]>
 
@@ -858,7 +827,6 @@ export type ClinicSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
-  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -873,7 +841,6 @@ export type ClinicSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
-  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -888,7 +855,6 @@ export type ClinicSelectScalar = {
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
-  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -899,11 +865,11 @@ export type ClinicSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "registrationNumber" | "clinicName" | "clinicOwnerName" | "address" | "phone" | "email" | "passwordHash" | "isVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
+export type ClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "registrationNumber" | "clinicName" | "address" | "phone" | "email" | "passwordHash" | "isVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
 export type ClinicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctors?: boolean | Prisma.Clinic$doctorsArgs<ExtArgs>
   appointments?: boolean | Prisma.Clinic$appointmentsArgs<ExtArgs>
-  refreshTokens?: boolean | Prisma.Clinic$refreshTokensArgs<ExtArgs>
+  sessions?: boolean | Prisma.Clinic$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.ClinicCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClinicIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -914,13 +880,12 @@ export type $ClinicPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     doctors: Prisma.$UserPayload<ExtArgs>[]
     appointments: Prisma.$AppointmentPayload<ExtArgs>[]
-    refreshTokens: Prisma.$ClinicRefreshTokenPayload<ExtArgs>[]
+    sessions: Prisma.$ClinicSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     registrationNumber: string
     clinicName: string
-    clinicOwnerName: string
     address: string
     phone: string
     email: string
@@ -1325,7 +1290,7 @@ export interface Prisma__ClinicClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   doctors<T extends Prisma.Clinic$doctorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Clinic$doctorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   appointments<T extends Prisma.Clinic$appointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Clinic$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  refreshTokens<T extends Prisma.Clinic$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Clinic$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClinicRefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.Clinic$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Clinic$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClinicSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1358,7 +1323,6 @@ export interface ClinicFieldRefs {
   readonly id: Prisma.FieldRef<"Clinic", 'String'>
   readonly registrationNumber: Prisma.FieldRef<"Clinic", 'String'>
   readonly clinicName: Prisma.FieldRef<"Clinic", 'String'>
-  readonly clinicOwnerName: Prisma.FieldRef<"Clinic", 'String'>
   readonly address: Prisma.FieldRef<"Clinic", 'String'>
   readonly phone: Prisma.FieldRef<"Clinic", 'String'>
   readonly email: Prisma.FieldRef<"Clinic", 'String'>
@@ -1808,27 +1772,27 @@ export type Clinic$appointmentsArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Clinic.refreshTokens
+ * Clinic.sessions
  */
-export type Clinic$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Clinic$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ClinicRefreshToken
+   * Select specific fields to fetch from the ClinicSession
    */
-  select?: Prisma.ClinicRefreshTokenSelect<ExtArgs> | null
+  select?: Prisma.ClinicSessionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ClinicRefreshToken
+   * Omit specific fields from the ClinicSession
    */
-  omit?: Prisma.ClinicRefreshTokenOmit<ExtArgs> | null
+  omit?: Prisma.ClinicSessionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ClinicRefreshTokenInclude<ExtArgs> | null
-  where?: Prisma.ClinicRefreshTokenWhereInput
-  orderBy?: Prisma.ClinicRefreshTokenOrderByWithRelationInput | Prisma.ClinicRefreshTokenOrderByWithRelationInput[]
-  cursor?: Prisma.ClinicRefreshTokenWhereUniqueInput
+  include?: Prisma.ClinicSessionInclude<ExtArgs> | null
+  where?: Prisma.ClinicSessionWhereInput
+  orderBy?: Prisma.ClinicSessionOrderByWithRelationInput | Prisma.ClinicSessionOrderByWithRelationInput[]
+  cursor?: Prisma.ClinicSessionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ClinicRefreshTokenScalarFieldEnum | Prisma.ClinicRefreshTokenScalarFieldEnum[]
+  distinct?: Prisma.ClinicSessionScalarFieldEnum | Prisma.ClinicSessionScalarFieldEnum[]
 }
 
 /**

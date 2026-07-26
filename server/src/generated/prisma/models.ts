@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Appointment.ts'
-export type * from './models/ClinicRefreshToken.ts'
 export type * from './models/Clinic.ts'
+export type * from './models/ClinicSession.ts'
 export type * from './models/QueueEntry.ts'
 export type * from './models/Session.ts'
 export type * from './models/User.ts'

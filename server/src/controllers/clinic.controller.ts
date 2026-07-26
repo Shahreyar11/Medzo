@@ -64,7 +64,7 @@ export const handleClinicRegsiter = async (req : Request, res : Response) =>  {
         })
         return res.status(201).json({
             success : true,
-            message : "Registered successfully. OTP sent to your email.",
+            message : "Registration successful. Your clinic will be verified by our admin team shortly.",
             email : newClinic.email,
             redirectTo : '/verifyClinicPage'
         })
@@ -76,11 +76,92 @@ export const handleClinicRegsiter = async (req : Request, res : Response) =>  {
     }
 } 
 
-export const handleClinicLogin = async (req : Request, res : Response) =>   {
+export const handleClinicLogin = async (req: Request, res: Response) => {
     try {
+        const { registrationNumber, password } = req.body
+        if (!registrationNumber || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Registration number and password are required"
+            })
+        }
 
-    } catch (err)   {
+        const clinic = await prisma.clinic.findFirst({ where: { registrationNumber } })
+        if (!clinic) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials"
+            })
+        }
 
+        const isValidPassword = await bcrypt.compare(password, clinic.passwordHash)
+        if (!isValidPassword) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials"
+            })
+        }
 
+        if (!clinic.isVerified) {
+            return res.status(403).json({
+                success: false,
+                message: "Your clinic is not verified yet, please wait!!"
+            })
+        }
+
+        const clinicSession = await prisma.clinicSession.create({
+            data: {
+                clinicId: clinic.id,
+                ipAddress: req.ip || "unknown",
+                userAgent: req.headers["user-agent"] as string,
+                refreshTokenHash: "",
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+            },
+        })
+
+        const refreshToken: string = jwt.sign(
+            { id: clinic.id, sessionId: clinicSession.id },
+            config.jwtRefreshSecret as string,
+            { expiresIn: "7d" }
+        );
+        const refreshTokenHash = crypto.createHash("sha256").update(refreshToken).digest("hex")
+
+        await prisma.clinicSession.update({
+            where: { id: clinicSession.id },
+            data: { refreshTokenHash }
+        })
+
+        const accessToken: string = jwt.sign(
+            { id: clinic.id, sessionId: clinicSession.id },
+            config.jwtAccessSecret as string,
+            { expiresIn: "15m" }
+        )
+
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: config.nodeEnv === "production",
+            sameSite: config.nodeEnv === "production" ? "none" : "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: config.nodeEnv === "production",
+            sameSite: config.nodeEnv === "production" ? "none" : "lax",
+            maxAge: 15 * 60 * 1000
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "Logged in successfully",
+            clinic: {
+                name: clinic.clinicName,
+                registrationNumber: clinic.registrationNumber
+            }
+        })
+
+    } catch (err) {
+        console.error('Login error:', err)
+        return res.status(500).json({ success: false, message: 'Internal server error' })
     }
 }

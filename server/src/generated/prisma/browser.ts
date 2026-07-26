@@ -23,15 +23,15 @@ export * from './enums.ts';
  */
 export type Appointment = Prisma.AppointmentModel
 /**
- * Model ClinicRefreshToken
- * 
- */
-export type ClinicRefreshToken = Prisma.ClinicRefreshTokenModel
-/**
  * Model Clinic
  * 
  */
 export type Clinic = Prisma.ClinicModel
+/**
+ * Model ClinicSession
+ * 
+ */
+export type ClinicSession = Prisma.ClinicSessionModel
 /**
  * Model QueueEntry
  * 
