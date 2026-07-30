@@ -51,6 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Appointment: 'Appointment',
+  Clinic: 'Clinic',
+  ClinicSession: 'ClinicSession',
+  QueueEntry: 'QueueEntry',
   Session: 'Session',
   User: 'User'
 } as const
@@ -69,6 +73,65 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AppointmentScalarFieldEnum = {
+  id: 'id',
+  clinicId: 'clinicId',
+  patientId: 'patientId',
+  doctorId: 'doctorId',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
+
+
+export const ClinicScalarFieldEnum = {
+  id: 'id',
+  registrationNumber: 'registrationNumber',
+  clinicName: 'clinicName',
+  address: 'address',
+  phone: 'phone',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  isVerified: 'isVerified',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClinicScalarFieldEnum = (typeof ClinicScalarFieldEnum)[keyof typeof ClinicScalarFieldEnum]
+
+
+export const ClinicSessionScalarFieldEnum = {
+  id: 'id',
+  clinicId: 'clinicId',
+  refreshTokenHash: 'refreshTokenHash',
+  isRevoked: 'isRevoked',
+  replacedBy: 'replacedBy',
+  userAgent: 'userAgent',
+  ipAddress: 'ipAddress',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClinicSessionScalarFieldEnum = (typeof ClinicSessionScalarFieldEnum)[keyof typeof ClinicSessionScalarFieldEnum]
+
+
+export const QueueEntryScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  tokenNumber: 'tokenNumber',
+  checkedInAt: 'checkedInAt',
+  checkedOutAt: 'checkedOutAt',
+  calledAt: 'calledAt'
+} as const
+
+export type QueueEntryScalarFieldEnum = (typeof QueueEntryScalarFieldEnum)[keyof typeof QueueEntryScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -103,6 +166,7 @@ export const UserScalarFieldEnum = {
   mobileNumberOtpExpiry: 'mobileNumberOtpExpiry',
   resetPasswordToken: 'resetPasswordToken',
   resetPasswordExpiresAt: 'resetPasswordExpiresAt',
+  clinicId: 'clinicId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

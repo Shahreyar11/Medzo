@@ -1,10 +1,11 @@
 model Appointment {
   id            String            @id @default(uuid())
   clinic        Clinic            @relation(fields: [clinicId], references: [id])
+  clinicId      String
   patient       User              @relation("PatientAppointments", fields: [patientId], references: [id])
-  patientId     String
+  patientId     Int              
   doctor        User              @relation("DoctorAppointments", fields: [doctorId], references: [id])
-  doctorId      String
+  doctorId      Int             
   status        AppointmentStatus @default(PENDING)
   scheduledAt   DateTime
   createdAt     DateTime          @default(now())

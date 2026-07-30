@@ -1,0 +1,16 @@
+model ClinicSession {
+  id                String   @id @default(uuid())
+  clinic            Clinic   @relation(fields: [clinicId], references: [id])
+  clinicId          String
+
+  refreshTokenHash  String   @unique
+  isRevoked         Boolean  @default(false)
+  replacedBy        String?
+
+  userAgent         String?
+  ipAddress         String?
+
+  expiresAt         DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

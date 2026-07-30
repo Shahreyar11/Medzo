@@ -52,6 +52,7 @@ export type UserMinAggregateOutputType = {
   mobileNumberOtpExpiry: Date | null
   resetPasswordToken: string | null
   resetPasswordExpiresAt: Date | null
+  clinicId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -74,6 +75,7 @@ export type UserMaxAggregateOutputType = {
   mobileNumberOtpExpiry: Date | null
   resetPasswordToken: string | null
   resetPasswordExpiresAt: Date | null
+  clinicId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -96,6 +98,7 @@ export type UserCountAggregateOutputType = {
   mobileNumberOtpExpiry: number
   resetPasswordToken: number
   resetPasswordExpiresAt: number
+  clinicId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -128,6 +131,7 @@ export type UserMinAggregateInputType = {
   mobileNumberOtpExpiry?: true
   resetPasswordToken?: true
   resetPasswordExpiresAt?: true
+  clinicId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -150,6 +154,7 @@ export type UserMaxAggregateInputType = {
   mobileNumberOtpExpiry?: true
   resetPasswordToken?: true
   resetPasswordExpiresAt?: true
+  clinicId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -172,6 +177,7 @@ export type UserCountAggregateInputType = {
   mobileNumberOtpExpiry?: true
   resetPasswordToken?: true
   resetPasswordExpiresAt?: true
+  clinicId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -281,6 +287,7 @@ export type UserGroupByOutputType = {
   mobileNumberOtpExpiry: Date | null
   resetPasswordToken: string | null
   resetPasswordExpiresAt: Date | null
+  clinicId: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -326,9 +333,13 @@ export type UserWhereInput = {
   mobileNumberOtpExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
   resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  clinicId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
+  clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  appointments?: Prisma.AppointmentListRelationFilter
+  doctorSlots?: Prisma.AppointmentListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -349,9 +360,13 @@ export type UserOrderByWithRelationInput = {
   mobileNumberOtpExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  clinicId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
+  clinic?: Prisma.ClinicOrderByWithRelationInput
+  appointments?: Prisma.AppointmentOrderByRelationAggregateInput
+  doctorSlots?: Prisma.AppointmentOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -375,9 +390,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   mobileNumberOtpExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
   resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  clinicId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
+  clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  appointments?: Prisma.AppointmentListRelationFilter
+  doctorSlots?: Prisma.AppointmentListRelationFilter
 }, "id" | "email" | "mobileNumber">
 
 export type UserOrderByWithAggregationInput = {
@@ -398,6 +417,7 @@ export type UserOrderByWithAggregationInput = {
   mobileNumberOtpExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  clinicId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -428,6 +448,7 @@ export type UserScalarWhereWithAggregatesInput = {
   mobileNumberOtpExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   resetPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   resetPasswordExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  clinicId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -452,6 +473,9 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutDoctorsInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+  doctorSlots?: Prisma.AppointmentCreateNestedManyWithoutDoctorInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -472,9 +496,12 @@ export type UserUncheckedCreateInput = {
   mobileNumberOtpExpiry?: Date | string | null
   resetPasswordToken?: string | null
   resetPasswordExpiresAt?: Date | string | null
+  clinicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+  doctorSlots?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDoctorInput
 }
 
 export type UserUpdateInput = {
@@ -497,6 +524,9 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutDoctorsNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+  doctorSlots?: Prisma.AppointmentUpdateManyWithoutDoctorNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -517,9 +547,12 @@ export type UserUncheckedUpdateInput = {
   mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+  doctorSlots?: Prisma.AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -540,6 +573,7 @@ export type UserCreateManyInput = {
   mobileNumberOtpExpiry?: Date | string | null
   resetPasswordToken?: string | null
   resetPasswordExpiresAt?: Date | string | null
+  clinicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -583,6 +617,7 @@ export type UserUncheckedUpdateManyInput = {
   mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -590,6 +625,16 @@ export type UserUncheckedUpdateManyInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -610,6 +655,7 @@ export type UserCountOrderByAggregateInput = {
   mobileNumberOtpExpiry?: Prisma.SortOrder
   resetPasswordToken?: Prisma.SortOrder
   resetPasswordExpiresAt?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -636,6 +682,7 @@ export type UserMaxOrderByAggregateInput = {
   mobileNumberOtpExpiry?: Prisma.SortOrder
   resetPasswordToken?: Prisma.SortOrder
   resetPasswordExpiresAt?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -658,12 +705,83 @@ export type UserMinOrderByAggregateInput = {
   mobileNumberOtpExpiry?: Prisma.SortOrder
   resetPasswordToken?: Prisma.SortOrder
   resetPasswordExpiresAt?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+}
+
+export type UserCreateNestedOneWithoutAppointmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAppointmentsInput, Prisma.UserUncheckedCreateWithoutAppointmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAppointmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutDoctorSlotsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDoctorSlotsInput, Prisma.UserUncheckedCreateWithoutDoctorSlotsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDoctorSlotsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAppointmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAppointmentsInput, Prisma.UserUncheckedCreateWithoutAppointmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAppointmentsInput
+  upsert?: Prisma.UserUpsertWithoutAppointmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAppointmentsInput, Prisma.UserUpdateWithoutAppointmentsInput>, Prisma.UserUncheckedUpdateWithoutAppointmentsInput>
+}
+
+export type UserUpdateOneRequiredWithoutDoctorSlotsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDoctorSlotsInput, Prisma.UserUncheckedCreateWithoutDoctorSlotsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDoctorSlotsInput
+  upsert?: Prisma.UserUpsertWithoutDoctorSlotsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDoctorSlotsInput, Prisma.UserUpdateWithoutDoctorSlotsInput>, Prisma.UserUncheckedUpdateWithoutDoctorSlotsInput>
+}
+
+export type UserCreateNestedManyWithoutClinicInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput> | Prisma.UserCreateWithoutClinicInput[] | Prisma.UserUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClinicInput | Prisma.UserCreateOrConnectWithoutClinicInput[]
+  createMany?: Prisma.UserCreateManyClinicInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutClinicInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput> | Prisma.UserCreateWithoutClinicInput[] | Prisma.UserUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClinicInput | Prisma.UserCreateOrConnectWithoutClinicInput[]
+  createMany?: Prisma.UserCreateManyClinicInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUpdateManyWithoutClinicNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput> | Prisma.UserCreateWithoutClinicInput[] | Prisma.UserUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClinicInput | Prisma.UserCreateOrConnectWithoutClinicInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutClinicInput | Prisma.UserUpsertWithWhereUniqueWithoutClinicInput[]
+  createMany?: Prisma.UserCreateManyClinicInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutClinicInput | Prisma.UserUpdateWithWhereUniqueWithoutClinicInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutClinicInput | Prisma.UserUpdateManyWithWhereWithoutClinicInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutClinicNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput> | Prisma.UserCreateWithoutClinicInput[] | Prisma.UserUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClinicInput | Prisma.UserCreateOrConnectWithoutClinicInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutClinicInput | Prisma.UserUpsertWithWhereUniqueWithoutClinicInput[]
+  createMany?: Prisma.UserCreateManyClinicInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutClinicInput | Prisma.UserUpdateWithWhereUniqueWithoutClinicInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutClinicInput | Prisma.UserUpdateManyWithWhereWithoutClinicInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -680,16 +798,337 @@ export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type UserCreateWithoutAppointmentsInput = {
+  firstName: string
+  lastName: string
+  email: string
+  pendingEmail?: string | null
+  isVerifiedPendingEmail?: boolean
+  isVerifiedEmail?: boolean
+  mobileNumber?: string | null
+  isVerifiedMobileNumber?: boolean
+  password: string
+  role?: $Enums.Role
+  emailOtp?: string | null
+  emailOtpExpiry?: Date | string | null
+  mobileNumberOtp?: string | null
+  mobileNumberOtpExpiry?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutDoctorsInput
+  doctorSlots?: Prisma.AppointmentCreateNestedManyWithoutDoctorInput
+}
+
+export type UserUncheckedCreateWithoutAppointmentsInput = {
+  id?: number
+  firstName: string
+  lastName: string
+  email: string
+  pendingEmail?: string | null
+  isVerifiedPendingEmail?: boolean
+  isVerifiedEmail?: boolean
+  mobileNumber?: string | null
+  isVerifiedMobileNumber?: boolean
+  password: string
+  role?: $Enums.Role
+  emailOtp?: string | null
+  emailOtpExpiry?: Date | string | null
+  mobileNumberOtp?: string | null
+  mobileNumberOtpExpiry?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
+  clinicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  doctorSlots?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDoctorInput
+}
+
+export type UserCreateOrConnectWithoutAppointmentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAppointmentsInput, Prisma.UserUncheckedCreateWithoutAppointmentsInput>
+}
+
+export type UserCreateWithoutDoctorSlotsInput = {
+  firstName: string
+  lastName: string
+  email: string
+  pendingEmail?: string | null
+  isVerifiedPendingEmail?: boolean
+  isVerifiedEmail?: boolean
+  mobileNumber?: string | null
+  isVerifiedMobileNumber?: boolean
+  password: string
+  role?: $Enums.Role
+  emailOtp?: string | null
+  emailOtpExpiry?: Date | string | null
+  mobileNumberOtp?: string | null
+  mobileNumberOtpExpiry?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutDoctorsInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+}
+
+export type UserUncheckedCreateWithoutDoctorSlotsInput = {
+  id?: number
+  firstName: string
+  lastName: string
+  email: string
+  pendingEmail?: string | null
+  isVerifiedPendingEmail?: boolean
+  isVerifiedEmail?: boolean
+  mobileNumber?: string | null
+  isVerifiedMobileNumber?: boolean
+  password: string
+  role?: $Enums.Role
+  emailOtp?: string | null
+  emailOtpExpiry?: Date | string | null
+  mobileNumberOtp?: string | null
+  mobileNumberOtpExpiry?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
+  clinicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+}
+
+export type UserCreateOrConnectWithoutDoctorSlotsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDoctorSlotsInput, Prisma.UserUncheckedCreateWithoutDoctorSlotsInput>
+}
+
+export type UserUpsertWithoutAppointmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAppointmentsInput, Prisma.UserUncheckedUpdateWithoutAppointmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAppointmentsInput, Prisma.UserUncheckedCreateWithoutAppointmentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAppointmentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAppointmentsInput, Prisma.UserUncheckedUpdateWithoutAppointmentsInput>
+}
+
+export type UserUpdateWithoutAppointmentsInput = {
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  pendingEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerifiedEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobileNumberOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutDoctorsNestedInput
+  doctorSlots?: Prisma.AppointmentUpdateManyWithoutDoctorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAppointmentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  pendingEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerifiedEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobileNumberOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  doctorSlots?: Prisma.AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+}
+
+export type UserUpsertWithoutDoctorSlotsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDoctorSlotsInput, Prisma.UserUncheckedUpdateWithoutDoctorSlotsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDoctorSlotsInput, Prisma.UserUncheckedCreateWithoutDoctorSlotsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDoctorSlotsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDoctorSlotsInput, Prisma.UserUncheckedUpdateWithoutDoctorSlotsInput>
+}
+
+export type UserUpdateWithoutDoctorSlotsInput = {
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  pendingEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerifiedEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobileNumberOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutDoctorsNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDoctorSlotsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  pendingEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerifiedEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobileNumberOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+}
+
+export type UserCreateWithoutClinicInput = {
+  firstName: string
+  lastName: string
+  email: string
+  pendingEmail?: string | null
+  isVerifiedPendingEmail?: boolean
+  isVerifiedEmail?: boolean
+  mobileNumber?: string | null
+  isVerifiedMobileNumber?: boolean
+  password: string
+  role?: $Enums.Role
+  emailOtp?: string | null
+  emailOtpExpiry?: Date | string | null
+  mobileNumberOtp?: string | null
+  mobileNumberOtpExpiry?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+  doctorSlots?: Prisma.AppointmentCreateNestedManyWithoutDoctorInput
+}
+
+export type UserUncheckedCreateWithoutClinicInput = {
+  id?: number
+  firstName: string
+  lastName: string
+  email: string
+  pendingEmail?: string | null
+  isVerifiedPendingEmail?: boolean
+  isVerifiedEmail?: boolean
+  mobileNumber?: string | null
+  isVerifiedMobileNumber?: boolean
+  password: string
+  role?: $Enums.Role
+  emailOtp?: string | null
+  emailOtpExpiry?: Date | string | null
+  mobileNumberOtp?: string | null
+  mobileNumberOtpExpiry?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+  doctorSlots?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDoctorInput
+}
+
+export type UserCreateOrConnectWithoutClinicInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput>
+}
+
+export type UserCreateManyClinicInputEnvelope = {
+  data: Prisma.UserCreateManyClinicInput | Prisma.UserCreateManyClinicInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserUpsertWithWhereUniqueWithoutClinicInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutClinicInput, Prisma.UserUncheckedUpdateWithoutClinicInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutClinicInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutClinicInput, Prisma.UserUncheckedUpdateWithoutClinicInput>
+}
+
+export type UserUpdateManyWithWhereWithoutClinicInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutClinicInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.IntFilter<"User"> | number
+  firstName?: Prisma.StringFilter<"User"> | string
+  lastName?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringFilter<"User"> | string
+  pendingEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFilter<"User"> | boolean
+  isVerifiedEmail?: Prisma.BoolFilter<"User"> | boolean
+  mobileNumber?: Prisma.StringNullableFilter<"User"> | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFilter<"User"> | boolean
+  password?: Prisma.StringFilter<"User"> | string
+  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  emailOtp?: Prisma.StringNullableFilter<"User"> | string | null
+  emailOtpExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  mobileNumberOtp?: Prisma.StringNullableFilter<"User"> | string | null
+  mobileNumberOtpExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  clinicId?: Prisma.StringNullableFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -711,6 +1150,9 @@ export type UserCreateWithoutSessionsInput = {
   resetPasswordExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  clinic?: Prisma.ClinicCreateNestedOneWithoutDoctorsInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+  doctorSlots?: Prisma.AppointmentCreateNestedManyWithoutDoctorInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -731,8 +1173,11 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   mobileNumberOtpExpiry?: Date | string | null
   resetPasswordToken?: string | null
   resetPasswordExpiresAt?: Date | string | null
+  clinicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+  doctorSlots?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDoctorInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -770,9 +1215,108 @@ export type UserUpdateWithoutSessionsInput = {
   resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clinic?: Prisma.ClinicUpdateOneWithoutDoctorsNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+  doctorSlots?: Prisma.AppointmentUpdateManyWithoutDoctorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  pendingEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerifiedEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobileNumberOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+  doctorSlots?: Prisma.AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+}
+
+export type UserCreateManyClinicInput = {
+  id?: number
+  firstName: string
+  lastName: string
+  email: string
+  pendingEmail?: string | null
+  isVerifiedPendingEmail?: boolean
+  isVerifiedEmail?: boolean
+  mobileNumber?: string | null
+  isVerifiedMobileNumber?: boolean
+  password: string
+  role?: $Enums.Role
+  emailOtp?: string | null
+  emailOtpExpiry?: Date | string | null
+  mobileNumberOtp?: string | null
+  mobileNumberOtpExpiry?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserUpdateWithoutClinicInput = {
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  pendingEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerifiedEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobileNumberOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+  doctorSlots?: Prisma.AppointmentUpdateManyWithoutDoctorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutClinicInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  pendingEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedPendingEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerifiedEmail?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerifiedMobileNumber?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  emailOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobileNumberOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumberOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+  doctorSlots?: Prisma.AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutClinicInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -801,10 +1345,14 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
 
 export type UserCountOutputType = {
   sessions: number
+  appointments: number
+  doctorSlots: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  appointments?: boolean | UserCountOutputTypeCountAppointmentsArgs
+  doctorSlots?: boolean | UserCountOutputTypeCountDoctorSlotsArgs
 }
 
 /**
@@ -822,6 +1370,20 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAppointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AppointmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDoctorSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AppointmentWhereInput
 }
 
 
@@ -843,9 +1405,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   mobileNumberOtpExpiry?: boolean
   resetPasswordToken?: boolean
   resetPasswordExpiresAt?: boolean
+  clinicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+  appointments?: boolean | Prisma.User$appointmentsArgs<ExtArgs>
+  doctorSlots?: boolean | Prisma.User$doctorSlotsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -867,8 +1433,10 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mobileNumberOtpExpiry?: boolean
   resetPasswordToken?: boolean
   resetPasswordExpiresAt?: boolean
+  clinicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -889,8 +1457,10 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mobileNumberOtpExpiry?: boolean
   resetPasswordToken?: boolean
   resetPasswordExpiresAt?: boolean
+  clinicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -911,22 +1481,33 @@ export type UserSelectScalar = {
   mobileNumberOtpExpiry?: boolean
   resetPasswordToken?: boolean
   resetPasswordExpiresAt?: boolean
+  clinicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "pendingEmail" | "isVerifiedPendingEmail" | "isVerifiedEmail" | "mobileNumber" | "isVerifiedMobileNumber" | "password" | "role" | "emailOtp" | "emailOtpExpiry" | "mobileNumberOtp" | "mobileNumberOtpExpiry" | "resetPasswordToken" | "resetPasswordExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "pendingEmail" | "isVerifiedPendingEmail" | "isVerifiedEmail" | "mobileNumber" | "isVerifiedMobileNumber" | "password" | "role" | "emailOtp" | "emailOtpExpiry" | "mobileNumberOtp" | "mobileNumberOtpExpiry" | "resetPasswordToken" | "resetPasswordExpiresAt" | "clinicId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+  appointments?: boolean | Prisma.User$appointmentsArgs<ExtArgs>
+  doctorSlots?: boolean | Prisma.User$doctorSlotsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[]
+    clinic: Prisma.$ClinicPayload<ExtArgs> | null
+    appointments: Prisma.$AppointmentPayload<ExtArgs>[]
+    doctorSlots: Prisma.$AppointmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -946,6 +1527,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     mobileNumberOtpExpiry: Date | null
     resetPasswordToken: string | null
     resetPasswordExpiresAt: Date | null
+    clinicId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1343,6 +1925,9 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  clinic<T extends Prisma.User$clinicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clinicArgs<ExtArgs>>): Prisma.Prisma__ClinicClient<runtime.Types.Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  appointments<T extends Prisma.User$appointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  doctorSlots<T extends Prisma.User$doctorSlotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$doctorSlotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1389,6 +1974,7 @@ export interface UserFieldRefs {
   readonly mobileNumberOtpExpiry: Prisma.FieldRef<"User", 'DateTime'>
   readonly resetPasswordToken: Prisma.FieldRef<"User", 'String'>
   readonly resetPasswordExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly clinicId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -1645,6 +2231,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1715,6 +2305,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1805,6 +2399,73 @@ export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+}
+
+/**
+ * User.clinic
+ */
+export type User$clinicArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Clinic
+   */
+  select?: Prisma.ClinicSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Clinic
+   */
+  omit?: Prisma.ClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClinicInclude<ExtArgs> | null
+  where?: Prisma.ClinicWhereInput
+}
+
+/**
+ * User.appointments
+ */
+export type User$appointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Appointment
+   */
+  select?: Prisma.AppointmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Appointment
+   */
+  omit?: Prisma.AppointmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AppointmentInclude<ExtArgs> | null
+  where?: Prisma.AppointmentWhereInput
+  orderBy?: Prisma.AppointmentOrderByWithRelationInput | Prisma.AppointmentOrderByWithRelationInput[]
+  cursor?: Prisma.AppointmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AppointmentScalarFieldEnum | Prisma.AppointmentScalarFieldEnum[]
+}
+
+/**
+ * User.doctorSlots
+ */
+export type User$doctorSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Appointment
+   */
+  select?: Prisma.AppointmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Appointment
+   */
+  omit?: Prisma.AppointmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AppointmentInclude<ExtArgs> | null
+  where?: Prisma.AppointmentWhereInput
+  orderBy?: Prisma.AppointmentOrderByWithRelationInput | Prisma.AppointmentOrderByWithRelationInput[]
+  cursor?: Prisma.AppointmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AppointmentScalarFieldEnum | Prisma.AppointmentScalarFieldEnum[]
 }
 
 /**
