@@ -2,91 +2,113 @@ import config from '../config/config'
 import bcrypt from "bcryptjs"
 import crypto from "crypto"
 import jwt from 'jsonwebtoken';
-import { sendEmailVerificationOtp } from "../utils/sendEmailOtp"
 import { Request, Response } from "express"
-import { JwtPayload } from "jsonwebtoken"
 import prisma from "../lib/prisma";
 
+// Helper function to generate REG- number
+const generateRegistrationNumber = () => {
+    return `REG-${Math.floor(100000 + Math.random() * 900000)}`;
+};
 
-export const handleClinicRegsiter = async (req : Request, res : Response) =>  {
+export const handleClinicRegsiter = async (req: Request, res: Response) => {
     try {
-        const {registrationNumber,
-                clinicName,
-                clinicOwnerName,
-                address,
-                phone,
-                password,
-                email} = req.body
-
-        const isAlreadyRegistered =  await prisma.clinic.findFirst({where : {registrationNumber}})
-        if (isAlreadyRegistered)    {
-            return res.status(403).json({
-                success : false,
-                message : "This registration number is already in use. Please check and try again, or contact support if this is a mistake."
-            }) 
-        }  
-        const isEmailPhoneTaken = await prisma.clinic.findFirst({
-            where : {
-                OR : [
-                    {email},
-                    {phone}
-                ]
-            }
-            })  
-        if (isEmailPhoneTaken){
-            if (isEmailPhoneTaken.email === email){
-                return res.status(400).json({
-                    success : false,
-                    message : "Email already registered"
-                })
-            }
-                
-            if (isEmailPhoneTaken.phone === phone){
-                return res.status(400).json({
-                    success : false,
-                    message : "Mobile Number already registered"
-                })
-            }            
-        }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt)
-
-        const newClinic = await prisma.clinic.create({
-        data: {
-            registrationNumber,
+        // Notice: registrationNumber is removed from req.body
+        const {
             clinicName,
             clinicOwnerName,
             address,
             phone,
-            email,
-            passwordHash : hashedPassword  
+            password,
+            email
+        } = req.body
+
+        const isEmailPhoneTaken = await prisma.clinic.findFirst({
+            where: {
+                OR: [
+                    { email },
+                    { phone }
+                ]
+            }
+        });
+
+        if (isEmailPhoneTaken) {
+            if (isEmailPhoneTaken.email === email) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Email already registered"
+                })
+            }
+            if (isEmailPhoneTaken.phone === phone) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Mobile Number already registered"
+                })
+            }
         }
-        })
-        return res.status(201).json({
-            success : true,
-            message : "Registration successful. Your clinic will be verified by our admin team shortly.",
-            email : newClinic.email,
-            redirectTo : '/verifyClinicPage'
+
+        // Generate a unique registration number
+        let registrationNumber = generateRegistrationNumber();
+        let isUnique = false;
+        
+        while (!isUnique) {
+            const existingReg = await prisma.clinic.findFirst({ where: { registrationNumber } });
+            if (!existingReg) {
+                isUnique = true;
+            } else {
+                registrationNumber = generateRegistrationNumber();
+            }
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt)
+
+        const newClinic = await prisma.clinic.create({
+            data: {
+                registrationNumber, // Injected here
+                clinicName,
+                clinicOwnerName,
+                address,
+                phone,
+                email,
+                passwordHash: hashedPassword
+            }
         })
 
+        return res.status(201).json({
+            success: true,
+            message: "Registration successful. Your clinic will be verified by our admin team shortly.",
+            registrationNumber: newClinic.registrationNumber, // Sent to frontend for the toast!
+            email: newClinic.email,
+        })
 
     } catch (err) {
         console.error('Register error:', err)
         return res.status(500).json({ success: false, message: 'Internal server error' })
     }
-} 
+}
 
 export const handleClinicLogin = async (req: Request, res: Response) => {
     try {
-        const { registrationNumber, password } = req.body
-        if (!registrationNumber || !password) {
+        // Accept both from the frontend
+        const { registrationNumber, email, password } = req.body
+
+        if (!password || (!registrationNumber && !email)) {
             return res.status(400).json({
                 success: false,
-                message: "Registration number and password are required"
+                message: "Identifier (Email/Reg Number) and password are required"
             })
         }
 
-        const clinic = await prisma.clinic.findFirst({ where: { registrationNumber } })
+        // Search by whichever one the user provided
+        const clinic = await prisma.clinic.findFirst({
+            where: {
+                OR: [
+                    { registrationNumber: registrationNumber || undefined },
+                    { email: email || undefined }
+                ]
+            }
+        })
+
         if (!clinic) {
             return res.status(401).json({
                 success: false,
@@ -102,12 +124,12 @@ export const handleClinicLogin = async (req: Request, res: Response) => {
             })
         }
 
-        if (!clinic.isVerified) {
-            return res.status(403).json({
-                success: false,
-                message: "Your clinic is not verified yet, please wait!!"
-            })
-        }
+        // if (!clinic.isVerified) {
+        //     return res.status(403).json({
+        //         success: false,
+        //         message: "Your clinic is not verified yet, please wait!!"
+        //     })
+        // }
 
         const clinicSession = await prisma.clinicSession.create({
             data: {
@@ -156,7 +178,8 @@ export const handleClinicLogin = async (req: Request, res: Response) => {
             message: "Logged in successfully",
             clinic: {
                 name: clinic.clinicName,
-                registrationNumber: clinic.registrationNumber
+                registrationNumber: clinic.registrationNumber,
+                email: clinic.email
             }
         })
 

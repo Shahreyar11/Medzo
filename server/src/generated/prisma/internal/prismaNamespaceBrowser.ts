@@ -93,6 +93,7 @@ export const ClinicScalarFieldEnum = {
   id: 'id',
   registrationNumber: 'registrationNumber',
   clinicName: 'clinicName',
+  clinicOwnerName: 'clinicOwnerName',
   address: 'address',
   phone: 'phone',
   email: 'email',

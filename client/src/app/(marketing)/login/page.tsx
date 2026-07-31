@@ -1,147 +1,69 @@
 "use client";
 
-import Link from "next/link";
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "@/services/auth.service";
-import toast from "react-hot-toast";
-import { loginSchema } from "@/schemas/auth.schema";
-import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { User, Building2 } from "lucide-react";
 
-export default function Login() {
+export default function LoginChoice() {
   const router = useRouter();
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const formValid = credentials.email.trim().length > 0 && credentials.password.length > 0;
-
-  const onLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      setSubmitting(true);
-      
-      const payload = {
-        email: credentials.email.trim(),
-        password: credentials.password,
-      };
-
-      const result = loginSchema.safeParse(payload);
-
-      if (!result.success) {
-        toast.error(result.error.issues[0].message);
-        return;
-      }
-
-      const res = await login(payload);
-      
-      toast.success("Welcome back!");
-      router.push("/dashboard"); // Redirect to your protected route
-
-    } catch (error: any) {
-      console.error("Login Error:", error.response?.data || error.message);
-      
-      // Specific check for your backend 403 Unverified Email response
-      if (error.response?.status === 403 && error.response?.data?.redirectTo) {
-        toast.error("Please verify your email first.");
-        router.push(`/verify?email=${encodeURIComponent(credentials.email.trim())}`);
-      } else {
-        toast.error(error.response?.data?.message || "Invalid credentials");
-      }
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F6F3EC] px-5 font-[Manrope,sans-serif]">
-      <div className="w-full max-w-md bg-white rounded-2xl border border-[#16423C]/10 shadow-[0_4px_30px_rgba(22,66,60,0.08)] p-8">
-        
-        <div className="flex flex-col items-center mb-7">
-          <PulseMark />
-          <h1 className="mt-4 text-2xl font-[Space_Grotesk,sans-serif] font-bold text-[#16423C]">
-            Welcome Back
+    <div className="min-h-screen flex items-center justify-center bg-[#F6F3EC] px-5">
+      <div className="w-full max-w-3xl">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-bold text-[#16423C]">
+            Welcome back to Medzo
           </h1>
-          <p className="text-[#6B7C78] text-sm mt-1">Log in to your Medzo dashboard</p>
+          <p className="text-[#6B7C78] mt-2">
+            Choose how you want to log in.
+          </p>
         </div>
 
-        <form onSubmit={onLogin} className="flex flex-col gap-5">
-          <div>
-            <label className="text-sm font-semibold text-[#16423C] mb-1.5 block">Email or Mobile Number</label>
-            <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6B7C78]">
-                <Mail size={17} />
-              </span>
-              <input
-                type="text"
-                value={credentials.email}
-                onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                placeholder="you@example.com"
-                className="w-full pl-10 pr-4 py-2.5 border border-[#16423C]/15 rounded-xl text-[#16423C] focus:outline-none focus:border-[#16423C]/50 focus:ring-2 focus:ring-[#E8A33D]/20 transition-all"
-              />
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Patient Card */}
+          <div className="bg-white rounded-2xl p-8 border border-[#16423C]/10 shadow hover:shadow-lg transition">
+            <div className="w-14 h-14 rounded-full bg-[#E8A33D]/20 flex items-center justify-center mb-5">
+              <User size={28} className="text-[#16423C]" />
             </div>
+
+            <h2 className="text-2xl font-bold text-[#16423C]">
+              Patient
+            </h2>
+
+            <p className="text-[#6B7C78] mt-3 mb-8">
+              Access your booked appointments, manage prescriptions, and review your personal medical records.
+            </p>
+
+            <button
+              onClick={() => router.push("/login/patient")}
+              className="w-full py-3 rounded-full bg-[#E8A33D] text-[#16423C] font-bold hover:opacity-90 transition-opacity"
+            >
+              Log in as Patient
+            </button>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-sm font-semibold text-[#16423C]">Password</label>
-              <Link href="/forgot-password" className="text-xs font-semibold text-[#E8A33D] hover:underline">
-                Forgot password?
-              </Link>
+          {/* Hospital Card */}
+          <div className="bg-white rounded-2xl p-8 border border-[#16423C]/10 shadow hover:shadow-lg transition">
+            <div className="w-14 h-14 rounded-full bg-[#16423C]/10 flex items-center justify-center mb-5">
+              <Building2 size={28} className="text-[#16423C]" />
             </div>
-            <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6B7C78]">
-                <Lock size={17} />
-              </span>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={credentials.password}
-                onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                placeholder="Enter your password"
-                className="w-full pl-10 pr-10 py-2.5 border border-[#16423C]/15 rounded-xl text-[#16423C] focus:outline-none focus:border-[#16423C]/50 focus:ring-2 focus:ring-[#E8A33D]/20 transition-all"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B7C78] hover:text-[#16423C]"
-              >
-                {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
-              </button>
-            </div>
+
+            <h2 className="text-2xl font-bold text-[#16423C]">
+              Hospital / Clinic
+            </h2>
+
+            <p className="text-[#6B7C78] mt-3 mb-8">
+              Access your facility dashboard to manage doctors, live queues, and patient operations.
+            </p>
+
+            <button
+              onClick={() => router.push("/login/clinic")}
+              className="w-full py-3 rounded-full bg-[#16423C] text-white font-bold hover:opacity-90 transition-opacity"
+            >
+              Log in as Hospital
+            </button>
           </div>
-
-          <button
-            type="submit"
-            disabled={!formValid || submitting}
-            className={`mt-2 w-full py-3 rounded-full font-bold text-[15px] flex items-center justify-center gap-2 transition-all ${
-              !formValid || submitting
-                ? "bg-[#16423C]/10 text-[#16423C]/40 cursor-not-allowed"
-                : "bg-[#E8A33D] text-[#16423C] shadow-[0_2px_10px_rgba(232,163,61,0.4)] hover:shadow-[0_4px_16px_rgba(232,163,61,0.5)] hover:-translate-y-[1px]"
-            }`}
-          >
-            {submitting && <Loader2 size={17} className="animate-spin" />}
-            {submitting ? "Logging in..." : "Log In"}
-          </button>
-        </form>
-
-        <p className="text-center text-sm text-[#6B7C78] mt-6">
-          New to Medzo?{" "}
-          <Link href="/signup" className="text-[#16423C] font-semibold hover:underline">
-            Create an account
-          </Link>
-        </p>
+        </div>
       </div>
     </div>
-  );
-}
-
-function PulseMark() {
-  return (
-    <svg width="34" height="24" viewBox="0 0 30 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 11H6L9 3L14 19L17 11H30" stroke="#E8A33D" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }

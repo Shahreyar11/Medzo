@@ -1,20 +1,20 @@
 model Clinic {
-  id                        String   @id @default(uuid())
-  registrationNumber        String
-  clinicName                String
-  address                   String
-  phone                     String
-  email                     String   @unique
-  passwordHash              String
+  id                 String          @id @default(uuid())
+  registrationNumber String          @unique // Added unique so we can query it easily
+  clinicName         String
+  clinicOwnerName    String?         // Added this to prevent Prisma errors!
+  address            String
+  phone              String?          @unique // Added unique
+  email              String          @unique
+  passwordHash       String
 
-  isVerified                Boolean  @default(false)
-  isActive                  Boolean  @default(true)
+  isVerified         Boolean         @default(false)
+  isActive           Boolean         @default(true)
 
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 
-  doctors                   User[]   @relation("ClinicDoctors")
-  appointments              Appointment[]
-
-  sessions                  ClinicSession[]
+  doctors            User[]          @relation("ClinicDoctors")
+  appointments       Appointment[]
+  sessions           ClinicSession[]
 }
