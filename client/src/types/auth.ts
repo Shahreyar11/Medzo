@@ -17,5 +17,5 @@ export interface VerifyBody {
 }
 
 export interface ResetPasswordBody {
-  password?: string;
+  password?: string;   //password can either be a string or it can be missing (undefined).
 }

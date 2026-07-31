@@ -58,7 +58,7 @@ export default function SignupChoice() {
             </p>
 
             <button
-              onClick={() => router.push("/signup/hospital")}
+              onClick={() => router.push("/signup/clinic")}
               className="w-full py-3 rounded-full bg-[#16423C] text-white font-bold hover:opacity-90"
             >
               Continue as Hospital

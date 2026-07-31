@@ -28,6 +28,7 @@ export type ClinicMinAggregateOutputType = {
   id: string | null
   registrationNumber: string | null
   clinicName: string | null
+  clinicOwnerName: string | null
   address: string | null
   phone: string | null
   email: string | null
@@ -42,6 +43,7 @@ export type ClinicMaxAggregateOutputType = {
   id: string | null
   registrationNumber: string | null
   clinicName: string | null
+  clinicOwnerName: string | null
   address: string | null
   phone: string | null
   email: string | null
@@ -56,6 +58,7 @@ export type ClinicCountAggregateOutputType = {
   id: number
   registrationNumber: number
   clinicName: number
+  clinicOwnerName: number
   address: number
   phone: number
   email: number
@@ -72,6 +75,7 @@ export type ClinicMinAggregateInputType = {
   id?: true
   registrationNumber?: true
   clinicName?: true
+  clinicOwnerName?: true
   address?: true
   phone?: true
   email?: true
@@ -86,6 +90,7 @@ export type ClinicMaxAggregateInputType = {
   id?: true
   registrationNumber?: true
   clinicName?: true
+  clinicOwnerName?: true
   address?: true
   phone?: true
   email?: true
@@ -100,6 +105,7 @@ export type ClinicCountAggregateInputType = {
   id?: true
   registrationNumber?: true
   clinicName?: true
+  clinicOwnerName?: true
   address?: true
   phone?: true
   email?: true
@@ -187,6 +193,7 @@ export type ClinicGroupByOutputType = {
   id: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName: string | null
   address: string
   phone: string
   email: string
@@ -222,6 +229,7 @@ export type ClinicWhereInput = {
   id?: Prisma.StringFilter<"Clinic"> | string
   registrationNumber?: Prisma.StringFilter<"Clinic"> | string
   clinicName?: Prisma.StringFilter<"Clinic"> | string
+  clinicOwnerName?: Prisma.StringNullableFilter<"Clinic"> | string | null
   address?: Prisma.StringFilter<"Clinic"> | string
   phone?: Prisma.StringFilter<"Clinic"> | string
   email?: Prisma.StringFilter<"Clinic"> | string
@@ -239,6 +247,7 @@ export type ClinicOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
+  clinicOwnerName?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -254,14 +263,15 @@ export type ClinicOrderByWithRelationInput = {
 
 export type ClinicWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  registrationNumber?: string
+  phone?: string
   email?: string
   AND?: Prisma.ClinicWhereInput | Prisma.ClinicWhereInput[]
   OR?: Prisma.ClinicWhereInput[]
   NOT?: Prisma.ClinicWhereInput | Prisma.ClinicWhereInput[]
-  registrationNumber?: Prisma.StringFilter<"Clinic"> | string
   clinicName?: Prisma.StringFilter<"Clinic"> | string
+  clinicOwnerName?: Prisma.StringNullableFilter<"Clinic"> | string | null
   address?: Prisma.StringFilter<"Clinic"> | string
-  phone?: Prisma.StringFilter<"Clinic"> | string
   passwordHash?: Prisma.StringFilter<"Clinic"> | string
   isVerified?: Prisma.BoolFilter<"Clinic"> | boolean
   isActive?: Prisma.BoolFilter<"Clinic"> | boolean
@@ -270,12 +280,13 @@ export type ClinicWhereUniqueInput = Prisma.AtLeast<{
   doctors?: Prisma.UserListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
   sessions?: Prisma.ClinicSessionListRelationFilter
-}, "id" | "email">
+}, "id" | "registrationNumber" | "phone" | "email">
 
 export type ClinicOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
+  clinicOwnerName?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -296,6 +307,7 @@ export type ClinicScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   registrationNumber?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   clinicName?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
+  clinicOwnerName?: Prisma.StringNullableWithAggregatesFilter<"Clinic"> | string | null
   address?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   phone?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   email?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
@@ -310,6 +322,7 @@ export type ClinicCreateInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -327,6 +340,7 @@ export type ClinicUncheckedCreateInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -344,6 +358,7 @@ export type ClinicUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -361,6 +376,7 @@ export type ClinicUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -378,6 +394,7 @@ export type ClinicCreateManyInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -392,6 +409,7 @@ export type ClinicUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -406,6 +424,7 @@ export type ClinicUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -425,6 +444,7 @@ export type ClinicCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
+  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -439,6 +459,7 @@ export type ClinicMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
+  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -453,6 +474,7 @@ export type ClinicMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
   clinicName?: Prisma.SortOrder
+  clinicOwnerName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -480,6 +502,10 @@ export type ClinicUpdateOneRequiredWithoutAppointmentsNestedInput = {
   upsert?: Prisma.ClinicUpsertWithoutAppointmentsInput
   connect?: Prisma.ClinicWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutAppointmentsInput, Prisma.ClinicUpdateWithoutAppointmentsInput>, Prisma.ClinicUncheckedUpdateWithoutAppointmentsInput>
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -520,6 +546,7 @@ export type ClinicCreateWithoutAppointmentsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -536,6 +563,7 @@ export type ClinicUncheckedCreateWithoutAppointmentsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -568,6 +596,7 @@ export type ClinicUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -584,6 +613,7 @@ export type ClinicUncheckedUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -600,6 +630,7 @@ export type ClinicCreateWithoutSessionsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -616,6 +647,7 @@ export type ClinicUncheckedCreateWithoutSessionsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -648,6 +680,7 @@ export type ClinicUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -664,6 +697,7 @@ export type ClinicUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -680,6 +714,7 @@ export type ClinicCreateWithoutDoctorsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -696,6 +731,7 @@ export type ClinicUncheckedCreateWithoutDoctorsInput = {
   id?: string
   registrationNumber: string
   clinicName: string
+  clinicOwnerName?: string | null
   address: string
   phone: string
   email: string
@@ -728,6 +764,7 @@ export type ClinicUpdateWithoutDoctorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -744,6 +781,7 @@ export type ClinicUncheckedUpdateWithoutDoctorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicOwnerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -809,6 +847,7 @@ export type ClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
+  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -827,6 +866,7 @@ export type ClinicSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
+  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -841,6 +881,7 @@ export type ClinicSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
+  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -855,6 +896,7 @@ export type ClinicSelectScalar = {
   id?: boolean
   registrationNumber?: boolean
   clinicName?: boolean
+  clinicOwnerName?: boolean
   address?: boolean
   phone?: boolean
   email?: boolean
@@ -865,7 +907,7 @@ export type ClinicSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "registrationNumber" | "clinicName" | "address" | "phone" | "email" | "passwordHash" | "isVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
+export type ClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "registrationNumber" | "clinicName" | "clinicOwnerName" | "address" | "phone" | "email" | "passwordHash" | "isVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
 export type ClinicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctors?: boolean | Prisma.Clinic$doctorsArgs<ExtArgs>
   appointments?: boolean | Prisma.Clinic$appointmentsArgs<ExtArgs>
@@ -886,6 +928,7 @@ export type $ClinicPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: string
     registrationNumber: string
     clinicName: string
+    clinicOwnerName: string | null
     address: string
     phone: string
     email: string
@@ -1323,6 +1366,7 @@ export interface ClinicFieldRefs {
   readonly id: Prisma.FieldRef<"Clinic", 'String'>
   readonly registrationNumber: Prisma.FieldRef<"Clinic", 'String'>
   readonly clinicName: Prisma.FieldRef<"Clinic", 'String'>
+  readonly clinicOwnerName: Prisma.FieldRef<"Clinic", 'String'>
   readonly address: Prisma.FieldRef<"Clinic", 'String'>
   readonly phone: Prisma.FieldRef<"Clinic", 'String'>
   readonly email: Prisma.FieldRef<"Clinic", 'String'>

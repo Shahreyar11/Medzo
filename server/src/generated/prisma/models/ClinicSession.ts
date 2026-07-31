@@ -469,10 +469,6 @@ export type ClinicSessionUncheckedUpdateManyWithoutClinicNestedInput = {
   deleteMany?: Prisma.ClinicSessionScalarWhereInput | Prisma.ClinicSessionScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type ClinicSessionCreateWithoutClinicInput = {
   id?: string
   refreshTokenHash: string

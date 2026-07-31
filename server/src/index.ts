@@ -7,6 +7,7 @@ import dns from "dns"
 import authRoutes from './routes/auth.route'
 import passwordRoutes from './routes/password.routes'
 import userRoutes from './routes/user.routes'
+import clinicRoutes from './routes/clinic.routes';
 
 dns.setServers(["1.1.1.1", "8.8.8.8"])
 const PORT = 8000
@@ -23,6 +24,7 @@ app.use(cors({
 app.use("/api/auth", authRoutes)
 app.use("/api/auth", passwordRoutes)
 app.use("/api/user", userRoutes)
+app.use('/api/clinic', clinicRoutes);
 
 app.get("/test", (req : Request, res : Response)  =>  {
     res.json({ message: "CORS is working!" })
